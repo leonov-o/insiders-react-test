@@ -14,14 +14,14 @@ interface InputProps {
 
 export const Input: React.FC<InputProps> = ({label, placeholder, inlineText, className, value, actionElement, onChange, onAction}) => {
     return (
-        <div className="text-sm">
+        <div className={cn(
+            "text-sm w-full",
+            className
+        )}>
             {
                 label && <label className="mb-2 block text-sm font-medium text-inputText">{label}</label>
             }
-            <div className={cn(
-                "flex items-center justify-between border border-inputBorder px-5 py-3.5",
-                className
-            )}>
+            <div className="flex items-center justify-between border border-inputBorder px-5 py-3.5" >
                 <div className="flex">
                     {
                         inlineText && <div className="mr-2 text-sm">{inlineText}</div>

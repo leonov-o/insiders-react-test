@@ -1,10 +1,10 @@
 import React from 'react';
 import {Checkbox} from "./Checkbox.tsx";
-import {IOption} from "../../App.tsx";
+import {IKeyValue, IUser} from "../../store";
 
 
 interface DropdownItemProps {
-    option: IOption;
+    option: IKeyValue | IUser;
     checked: boolean;
     selectable?: boolean;
     onClick?: () => void;

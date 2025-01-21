@@ -3,35 +3,40 @@ import {Input} from "./Input.tsx";
 import {ChevronDownIcon, ChevronUpIcon} from "@radix-ui/react-icons";
 import {cn} from "../../utils/cn.ts";
 import {DropdownItem} from "./DropdownItem.tsx";
-import {IOption} from "../../App.tsx";
+import {IKeyValue, IUser} from "../../store";
+
 
 type DropdownProps = {
-    options: IOption[];
+    label: string;
+    options: IKeyValue[] | IUser[];
     selectable: boolean;
-    selected: IOption[];
-    onChange: (selected: IOption[]) => void;
+    selected: IKeyValue[] | IUser[];
+    className?: string;
+    onChange: (selected: IKeyValue[] | IUser[]) => void;
 };
 
 const ChevronIcon = ({open}: { open: boolean }) => {
     return open ? <ChevronUpIcon className="size-4"/> : <ChevronDownIcon className="size-4"/>
 };
 
-export const Dropdown: React.FC<DropdownProps> = ({options, selectable, selected, onChange}) => {
+export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, selected, className, onChange}) => {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
 
     useEffect(() => {
-        setFilteredOptions(
-            options.sort((a, b) => {
-                const isASelected = selected.find(v => v.value === a.value);
-                const isBSelected = selected.find(v => v.value === b.value);
+        if(selectable){
+            setFilteredOptions(
+                options.sort((a, b) => {
+                    const isASelected = selected.find(v => v.name === a.name);
+                    const isBSelected = selected.find(v => v.name === b.name);
 
-                if (isASelected && !isBSelected) return -1;
-                if (!isASelected && isBSelected) return 1;
-                return 0;
-            })
-        );
+                    if (isASelected && !isBSelected) return -1;
+                    if (!isASelected && isBSelected) return 1;
+                    return 0;
+                })
+            );
+        }
     }, [selected, search]);
 
 
@@ -47,39 +52,40 @@ export const Dropdown: React.FC<DropdownProps> = ({options, selectable, selected
 
 
     const handleSelect = (value) => {
-        console.log(`Selected ${value.name}`);
         if (selectable) {
-            if (selected.find(v => v.value === value.value)) {
-                onChange(selected.filter(v => v.value !== value.value))
-                return
+            if(selected.find(v => v.name === value.name)) {
+                onChange(selected.filter(v => v.name !== value.name))
+            }else {
+                onChange([...selected, value]);
             }
-            onChange([...selected, value]);
-        } else {
-            onChange([value]);
-            setOpen(false);
+            return
         }
+        onChange([value]);
+        setOpen(false);
     };
 
 
     return (
-        <div className={cn("relative w-full", {"border border-b-0 border-black": open})}>
-            <Input placeholder="Type to search..."
-                   inlineText={selected.length > 1 ? `Selected (${selected.length})` : selected[0]?.name}
-                   actionElement={<ChevronIcon open={open}/>}
-                   onAction={() => setOpen(!open)}
-                   onChange={(e) => setSearch(e.target.value)}
-                   className={cn({"border-0": open})}
-                   value={search}/>
+        <div className={cn("relative", {"border border-b-0 border-black": open}, className)}>
+            <Input
+                label={label}
+                placeholder="Type to search..."
+                inlineText={selected.length > 1 ? `Selected (${selected.length})` : selected[0]?.name}
+                actionElement={<ChevronIcon open={open}/>}
+                onAction={() => setOpen(!open)}
+                onChange={(e) => setSearch(e.target.value)}
+                className={cn({"border-0": open})}
+                value={search}/>
             {
                 open ? (
                     <div
-                        className="absolute -left-px box-border w-[calc(100%+1.8px)] border border-t-0 border-black bg-white   px-2">
+                        className="absolute -left-px z-10 box-border w-[calc(100%+1.8px)] border border-t-0 border-black bg-white px-2">
                         <div className="mr-3 max-h-60 overflow-y-auto">
                             {
                                 filteredOptions.length > 0
-                                    ? filteredOptions.map((option) => <DropdownItem key={option.value}
+                                    ? filteredOptions.map((option) => <DropdownItem key={option.name}
                                                                                     option={option}
-                                                                                    checked={!!selected.find((v) => v.value === option.value)}
+                                                                                    checked={!!selected.find((v) => v.name === option.name)}
                                                                                     selectable={selectable}
                                                                                     onClick={() => handleSelect(option)}
                                     />)

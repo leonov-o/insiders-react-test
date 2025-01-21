@@ -7,7 +7,7 @@ interface ButtonProps {
     disabled?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({children, className, disabled = false}) => {
+export const Button: React.FC<ButtonProps> = ({children, className, disabled = false, onClick}) => {
     return (
         <button disabled={disabled} className={cn(
             "border border-primary p-3 text-center text-sm transition hover:bg-primary",
@@ -15,7 +15,9 @@ export const Button: React.FC<ButtonProps> = ({children, className, disabled = f
                 "cursor-not-allowed text-buttonTextDisabled hover:bg-white": disabled
             },
             className
-        )}>
+        )}
+                onClick={onClick}
+        >
             {children}
         </button>
     );
