@@ -4,6 +4,7 @@ import {cn} from "../../utils/cn.ts";
 interface InputProps {
     label?: string;
     placeholder?: string;
+    inlineText?: string;
     className?: string;
     value: string;
     actionElement?: React.ReactNode;
@@ -11,7 +12,7 @@ interface InputProps {
     onAction?: () => void;
 }
 
-export const Input: React.FC<InputProps> = ({label, placeholder, className, value, actionElement, onChange, onAction}) => {
+export const Input: React.FC<InputProps> = ({label, placeholder, inlineText, className, value, actionElement, onChange, onAction}) => {
     return (
         <div className="text-sm">
             {
@@ -21,13 +22,18 @@ export const Input: React.FC<InputProps> = ({label, placeholder, className, valu
                 "flex items-center justify-between border border-inputBorder px-5 py-3.5",
                 className
             )}>
-                <input
-                    type="text"
-                    placeholder={placeholder}
-                    className="text-inputText focus:outline-none"
-                    value={value}
-                    onChange={onChange}
-                />
+                <div className="flex">
+                    {
+                        inlineText && <div className="mr-2 text-sm">{inlineText}</div>
+                    }
+                    <input
+                        type="text"
+                        placeholder={placeholder}
+                        className="text-inputText focus:outline-none"
+                        value={value}
+                        onChange={onChange}
+                    />
+                </div>
                 {
                     actionElement && (
                         <div onClick={onAction}>
