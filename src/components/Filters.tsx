@@ -2,6 +2,7 @@ import {Button, Dropdown} from "./shared";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {IKeyValue, useUserStore} from "../store";
 import React, {useEffect, useState} from "react";
+import AddUserPopup from "./AddUserPopup.tsx";
 
 interface FiltersType {
     department: IKeyValue[];
@@ -14,9 +15,9 @@ interface FiltersProps {
 }
 
 export const Filters:React.FC<FiltersProps> = ({filters, onChange}) => {
-    const {departments, countries, statuses, addUser} = useUserStore();
+    const {departments, countries, statuses} = useUserStore();
     const [isDisabled, setIsDisabled] = useState(true);
-
+    const [popup, setPopup] = useState(false);
 
     const handleChange = (key, value) => {
         onChange({
@@ -44,6 +45,7 @@ export const Filters:React.FC<FiltersProps> = ({filters, onChange}) => {
 
     return (
         <div>
+            {popup && <AddUserPopup onClose={() => setPopup(false)}/>}
             <p className="mb-3 font-light text-primary">Please add at least 3 departments to be able to proceed next steps.</p>
             <div className="flex justify-between">
                 <div className=" flex">
@@ -52,7 +54,7 @@ export const Filters:React.FC<FiltersProps> = ({filters, onChange}) => {
                     <Dropdown options={statuses} selected={filters.status} selectable={true} disabled={isDisabled} onChange={(value) => handleChange("status", value)}/>
                     <Button className="ml-5" onClick={resetFilters}><TrashIcon className="size-5"/></Button>
                 </div>
-                <Button>Add user</Button>
+                <Button onClick={() => setPopup(true)}>Add user</Button>
             </div>
         </div>
     );

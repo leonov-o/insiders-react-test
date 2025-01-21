@@ -73,7 +73,6 @@ export const EditUserPage = () => {
                                 <Dropdown className="w-1/2" label="Department" options={departments} selectable={false}
                                           selected={[department] as IKeyValue[]}
                                           onChange={(value) => {
-                                              console.log(value)
                                               setDepartment(value[0])
                                           }}/>
                             </div>

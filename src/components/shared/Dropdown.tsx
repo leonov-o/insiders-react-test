@@ -67,7 +67,7 @@ export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, s
 
 
     return (
-        <div className={cn("relative", {"border border-b-0 border-black": open}, className)}>
+        <div className={cn("relative", {"border border-b-0  border-black": open}, className)}>
             <Input
                 label={label}
                 placeholder="Type to search..."
@@ -89,7 +89,7 @@ export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, s
                                 filteredOptions.length > 0
                                     ? filteredOptions.map((option) => <DropdownItem key={option.name}
                                                                                     option={option}
-                                                                                    checked={!!selected.find((v) => v.name === option.name)}
+                                                                                    checked={!!selected.find((v) => v?.name === option.name)}
                                                                                     selectable={selectable}
                                                                                     onClick={() => handleSelect(option)}
                                     />)
