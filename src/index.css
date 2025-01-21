@@ -6,3 +6,16 @@ body {
     font-family: "Rubik", serif;
 }
 
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(134, 157, 200, 0.2);
+    margin-right: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000000;
+    border-radius: 8px;
+}
