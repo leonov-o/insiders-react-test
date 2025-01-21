@@ -5,7 +5,6 @@ import {IKeyValue, useUserStore} from "../store";
 
 export const EditUserPage = () => {
     const {users, departments, countries, statuses, updateUser} = useUserStore();
-    console.log(users)
     const [selectedUser, setSelectedUser] = useState([]);
     const [name, setName] = useState("");
     const [department, setDepartment] = useState<IKeyValue>(null);
@@ -57,9 +56,9 @@ export const EditUserPage = () => {
     return (
         <div>
             <Header/>
-            <div className="border border-black px-24 py-20">
+            <div className="border border-black mx-24 my-20">
                 <h2 className="mt-14 text-center text-2xl font-medium uppercase">Edit User</h2>
-                <div className="py-20">
+                <div className="p-20">
                     <div>
                         <Dropdown label="User" className="w-1/2 pr-11" options={users} selectable={false}
                                   selected={selectedUser} onChange={(value) => setSelectedUser(value)}/>

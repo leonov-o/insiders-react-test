@@ -7,10 +7,11 @@ import {IKeyValue, IUser} from "../../store";
 
 
 type DropdownProps = {
-    label: string;
+    label?: string;
     options: IKeyValue[] | IUser[];
     selectable: boolean;
     selected: IKeyValue[] | IUser[];
+    disabled?: boolean;
     className?: string;
     onChange: (selected: IKeyValue[] | IUser[]) => void;
 };
@@ -19,7 +20,7 @@ const ChevronIcon = ({open}: { open: boolean }) => {
     return open ? <ChevronUpIcon className="size-4"/> : <ChevronDownIcon className="size-4"/>
 };
 
-export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, selected, className, onChange}) => {
+export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, selected, disabled, className, onChange}) => {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -72,7 +73,10 @@ export const Dropdown: React.FC<DropdownProps> = ({label, options, selectable, s
                 placeholder="Type to search..."
                 inlineText={selected.length > 1 ? `Selected (${selected.length})` : selected[0]?.name}
                 actionElement={<ChevronIcon open={open}/>}
-                onAction={() => setOpen(!open)}
+                onAction={() => {
+                    if(!disabled) setOpen(!open)
+                }}
+                disabled={disabled}
                 onChange={(e) => setSearch(e.target.value)}
                 className={cn({"border-0": open})}
                 value={search}/>

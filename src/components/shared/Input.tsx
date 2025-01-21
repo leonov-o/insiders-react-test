@@ -7,12 +7,13 @@ interface InputProps {
     inlineText?: string;
     className?: string;
     value: string;
+    disabled?: boolean;
     actionElement?: React.ReactNode;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onAction?: () => void;
 }
 
-export const Input: React.FC<InputProps> = ({label, placeholder, inlineText, className, value, actionElement, onChange, onAction}) => {
+export const Input: React.FC<InputProps> = ({label, placeholder, inlineText, className, value, disabled, actionElement, onChange, onAction}) => {
     return (
         <div className={cn(
             "text-sm w-full",
@@ -29,7 +30,8 @@ export const Input: React.FC<InputProps> = ({label, placeholder, inlineText, cla
                     <input
                         type="text"
                         placeholder={placeholder}
-                        className="text-inputText focus:outline-none"
+                        disabled={disabled}
+                        className="text-inputText focus:outline-none disabled:cursor-not-allowed disabled:bg-white disabled:text-textDisabled"
                         value={value}
                         onChange={onChange}
                     />

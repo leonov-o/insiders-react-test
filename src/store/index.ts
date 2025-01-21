@@ -21,6 +21,7 @@ interface IUserState {
     countries: IKeyValue[];
     updateUser: (index: number, user: IUser) => void;
     addUser: (user: IUser) => void;
+    deleteUser: (index: number) => void;
 }
 
 export const useUserStore = create<IUserState>()(immer((set) => ({
@@ -38,7 +39,12 @@ export const useUserStore = create<IUserState>()(immer((set) => ({
     addUser: (user: IUser) => {
         set((state) => {
             state.users.push(user);
-            return state;
+        });
+    },
+
+    deleteUser: (index: number) => {
+        set((state) => {
+            state.users = state.users.filter((_, i) => i !== index);
         });
     },
 
